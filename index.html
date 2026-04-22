@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahrschule Schulterblick Feedback Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">
+            <span class="brand-mark__beam"></span>
+            <span class="brand-mark__beam brand-mark__beam--alt"></span>
+          </div>
+          <div>
+            <p class="eyebrow">Bonn Feedback Hub</p>
+            <h1>Schulterblick</h1>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item nav-item--active" type="button">Overview</button>
+          <button class="nav-item" type="button">Sentiment</button>
+          <button class="nav-item" type="button">Instructors</button>
+          <button class="nav-item" type="button">Channels</button>
+          <button class="nav-item" type="button">Action Queue</button>
+        </nav>
+
+        <section class="sidebar-card">
+          <p class="sidebar-card__label">April Focus</p>
+          <h2>Reduce wait-time frustration before theory lessons</h2>
+          <p class="sidebar-card__body">
+            31% of detractor comments mention scheduling friction or response delays.
+          </p>
+          <div class="focus-meter">
+            <span class="focus-meter__fill"></span>
+          </div>
+          <p class="sidebar-card__foot">Urgency score: 8.4 / 10</p>
+        </section>
+
+        <section class="sidebar-card sidebar-card--ghost">
+          <p class="sidebar-card__label">Channels in Pulse</p>
+          <div class="mini-stat">
+            <span>Google Reviews</span>
+            <strong>41%</strong>
+          </div>
+          <div class="mini-stat">
+            <span>WhatsApp Follow-up</span>
+            <strong>28%</strong>
+          </div>
+          <div class="mini-stat">
+            <span>Website Form</span>
+            <strong>19%</strong>
+          </div>
+          <div class="mini-stat">
+            <span>In-person Survey</span>
+            <strong>12%</strong>
+          </div>
+        </section>
+      </aside>
+
+      <main class="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Customer Feedback Dashboard</p>
+            <h2>Fahrschule Schulterblick Bonn</h2>
+          </div>
+          <div class="topbar__actions">
+            <label class="search">
+              <span>Search feedback</span>
+              <input id="searchInput" type="search" placeholder="Try 'theory', 'instructor', 'WhatsApp'" />
+            </label>
+            <button class="pill-button" id="exportButton" type="button">Export snapshot</button>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="hero__copy">
+            <p class="eyebrow">Live pulse</p>
+            <h3>Students love the calm teaching style. They lose patience when admin replies lag.</h3>
+            <p>
+              This concept dashboard turns review noise into a daily operating view for sentiment, response quality,
+              instructor performance, and the fixes that matter next.
+            </p>
+            <div class="hero__chips" id="activeFilters"></div>
+          </div>
+          <div class="hero__stats">
+            <div class="hero-kpi">
+              <span>Monthly rating</span>
+              <strong id="heroRating">4.8</strong>
+              <small id="heroRatingDelta">+0.2 vs last month</small>
+            </div>
+            <div class="hero-kpi">
+              <span>Net promoter score</span>
+              <strong id="heroNps">71</strong>
+              <small id="heroPromoters">82% promoters</small>
+            </div>
+            <div class="hero-kpi">
+              <span>Response SLA</span>
+              <strong id="heroSla">6.1h</strong>
+              <small id="heroSlaDelta">Target under 8h</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="controls">
+          <label>
+            <span>Location</span>
+            <select id="locationFilter"></select>
+          </label>
+          <label>
+            <span>Channel</span>
+            <select id="channelFilter"></select>
+          </label>
+          <label>
+            <span>Sentiment</span>
+            <select id="sentimentFilter"></select>
+          </label>
+          <label>
+            <span>Course</span>
+            <select id="courseFilter"></select>
+          </label>
+        </section>
+
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <section class="content-grid">
+          <article class="panel panel--wide">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Trend</p>
+                <h3>Feedback momentum</h3>
+              </div>
+              <p class="panel__meta" id="trendMeta">Last 6 months</p>
+            </div>
+            <div class="trend-chart" id="trendChart"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Composition</p>
+                <h3>Sentiment mix</h3>
+              </div>
+              <p class="panel__meta" id="sentimentSummary"></p>
+            </div>
+            <div class="donut-wrap">
+              <svg viewBox="0 0 220 220" class="donut-chart" aria-label="Sentiment donut chart">
+                <circle class="donut-chart__base" cx="110" cy="110" r="78"></circle>
+                <circle id="promoterArc" class="donut-chart__arc donut-chart__arc--promoter" cx="110" cy="110" r="78"></circle>
+                <circle id="passiveArc" class="donut-chart__arc donut-chart__arc--passive" cx="110" cy="110" r="78"></circle>
+                <circle id="detractorArc" class="donut-chart__arc donut-chart__arc--detractor" cx="110" cy="110" r="78"></circle>
+              </svg>
+              <div class="donut-legend" id="donutLegend"></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Themes</p>
+                <h3>Topic pressure map</h3>
+              </div>
+              <p class="panel__meta">Mention count by issue</p>
+            </div>
+            <div class="bar-list" id="topicBars"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Team</p>
+                <h3>Instructor scorecard</h3>
+              </div>
+              <p class="panel__meta">Composite from review and follow-up data</p>
+            </div>
+            <div class="coach-list" id="coachList"></div>
+          </article>
+
+          <article class="panel panel--wide">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Action Queue</p>
+                <h3>What to fix next</h3>
+              </div>
+              <p class="panel__meta">Prioritized from urgency and impact</p>
+            </div>
+            <div class="action-list" id="actionList"></div>
+          </article>
+
+          <article class="panel panel--wide">
+            <div class="panel__head">
+              <div>
+                <p class="eyebrow">Voice of customer</p>
+                <h3>Recent feedback stream</h3>
+              </div>
+              <p class="panel__meta" id="feedbackCountMeta"></p>
+            </div>
+            <div class="feedback-list" id="feedbackList"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
